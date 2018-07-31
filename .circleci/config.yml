@@ -1,6 +1,6 @@
 defaults: &defaults
   docker:
-    - image: petrpliska/shopsys-buildpack:0.1.0
+    - image: petrpliska/shopsys-buildpack:0.1.1
       auth:
         username: $DOCKER_USERNAME
         password: $DOCKER_PASSWORD
@@ -10,10 +10,12 @@ login-to-dockerhub: &login-to-dockerhub
   name: Login to Docker hub
   command: echo $DOCKER_PASSWORD | docker login --username $DOCKER_USERNAME --password-stdin
 
-create-google-service-account-file: &create-google-service-account-file
-  name: Create google service account file
-  command: echo "$GOOGLE_SERVICE_ACCOUNT">/etc/google-service-account.json
-
+setup-google-account: &setup-google-account
+  name: Setup google account
+  command: |
+    echo "$GOOGLE_SERVICE_ACCOUNT">/etc/google-service-account.json
+    gcloud auth activate-service-account $GOOGLE_ACCOUNT /etc/google-service-account.json
+    gcloud container clusters get-credentials shopsys --zone europe-west1-d --project $GOOGLE_PROJECT_ID
 version: 2
 jobs:
   deploy-to-k8s:
@@ -30,7 +32,7 @@ jobs:
           name: Push docker image into registry
           command: docker image push $DOCKER_REPOSITORY:$CIRCLE_BRANCH-$CIRCLE_SHA1
       - run:
-          <<: *create-google-service-account-file
+          <<: *setup-google-account
       - run:
           name: Deploy to k8s
           command: echo "Deploy yeaaaah"
