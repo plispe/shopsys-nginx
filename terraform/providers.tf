@@ -7,7 +7,7 @@ provider "kubernetes" {}
 
 terraform {
   backend "gcs" {
-    bucket = "tf-state-shopsys-nginx"
+    bucket = "tf-state-petrpliska-shopsys-nginx"
     prefix = "workspace"
     region = "europe-west1"
   }
