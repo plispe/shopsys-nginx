@@ -6,6 +6,10 @@ defaults: &defaults
         password: $DOCKER_PASSWORD
   working_directory: ~/source
 
+login-to-dockerhub: &login-to-dockerhub
+  name: Login to Docker hub
+  command: echo $DOCKER_PASSWORD | docker login --username $DOCKER_USERNAME --password-stdin
+
 version: 2
 jobs:
   deploy-to-k8s:
@@ -15,7 +19,12 @@ jobs:
       - checkout
       - run:
           name: Build docker image
-          command: docker image build --build-arg version=$CIRCLE_SHA1 --tag $DOCKER_REPOSITORY:$CIRCLE_BRANCH-$CIRCLE_SHA1 --tag $DOCKER_REPOSITORY:latest .
+          command: docker image build --build-arg version=$CIRCLE_BRANCH-$CIRCLE_SHA1 --tag $DOCKER_REPOSITORY:$CIRCLE_BRANCH-$CIRCLE_SHA1 --tag $DOCKER_REPOSITORY:latest .
+      - run:
+          <<: *login-to-dockerhub
+      - run:
+          name: Push docker image into registry
+          command: docker image push $DOCKER_REPOSITORY:$CIRCLE_BRANCH-$CIRCLE_SHA1
       - run:
           name: Deploy to k8s
           command: echo "Deploy yeaaaah"
