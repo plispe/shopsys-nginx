@@ -3,7 +3,7 @@ kind: Deployment
 metadata:
   name: shopsys
 spec:
-  replicas: 1
+  replicas: 3
   selector:
     matchLabels:
       app: shopsys
@@ -14,7 +14,7 @@ spec:
     spec:
       containers:
         - name: nginx
-          image: petrpliska/shopsys-nginx:master-031abea746a7ddb8bd90b991a8211f371bfd4cd0
+          image: $DOCKER_IMAGE
           ports:
             - name: http
               containerPort: 80
