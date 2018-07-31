@@ -41,6 +41,7 @@ jobs:
           command: kubectl get pods
       - run:
           name: Terraform init
+          working_directory: terraform
           command: |
             terraform init
             terraform workspace new ${CIRCLE_BRANCH} || true
