@@ -10,6 +10,10 @@ login-to-dockerhub: &login-to-dockerhub
   name: Login to Docker hub
   command: echo $DOCKER_PASSWORD | docker login --username $DOCKER_USERNAME --password-stdin
 
+create-google-service-account-file: &create-google-service-account-file
+  name: Create google service account file
+  command: echo "$GOOGLE_SERVICE_ACCOUNT">/etc/google-service-account.json
+
 version: 2
 jobs:
   deploy-to-k8s:
@@ -25,6 +29,8 @@ jobs:
       - run:
           name: Push docker image into registry
           command: docker image push $DOCKER_REPOSITORY:$CIRCLE_BRANCH-$CIRCLE_SHA1
+      - run:
+          <<: *create-google-service-account-file
       - run:
           name: Deploy to k8s
           command: echo "Deploy yeaaaah"
