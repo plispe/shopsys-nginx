@@ -43,7 +43,7 @@ jobs:
           name: Terraform init
           working_directory: terraform
           command: |
-            TF_VAR_K8S_NAMESPACE="${CIRCLE_BRANCH}"
+            export TF_VAR_K8S_NAMESPACE=$CIRCLE_BRANCH
             terraform init
             terraform workspace new ${CIRCLE_BRANCH} || true
             terraform workspace select ${CIRCLE_BRANCH}
