@@ -11,6 +11,7 @@ jobs:
   deploy-to-k8s:
     <<: *defaults
     steps:
+      - setup_remote_docker
       - checkout
       - run:
           name: Build docker image
