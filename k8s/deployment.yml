@@ -1,0 +1,20 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: shopsys
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: shopsys
+  template:
+    metadata:
+      labels:
+        app: shopsys
+    spec:
+      containers:
+        - name: nginx
+          image: petrpliska/shopsys-nginx:master-031abea746a7ddb8bd90b991a8211f371bfd4cd0
+          ports:
+            - name: http
+              containerPort: 80
