@@ -36,6 +36,9 @@ jobs:
       - run:
           name: Deploy to k8s
           command: echo "Deploy yeaaaah"
+      - run:
+          name: List k8s pods
+          command: kubectl get pods
 
 workflows:
   version: 2
