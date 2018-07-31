@@ -11,6 +11,7 @@ jobs:
   deploy-to-k8s:
     <<: *defaults
     steps:
+      - checkout
       - run:
           name: Build docker image
           command: docker image build --build-arg version=$CIRCLE_SHA1 --tag $DOCKER_REPOSITORY:$CIRCLE_BRANCH-$CIRCLE_SHA1 --tag $DOCKER_REPOSITORY:latest .
