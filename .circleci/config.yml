@@ -1,0 +1,25 @@
+defaults: &defaults
+  docker:
+    - image: petrpliska/shopsys-buildpack:0.1.0
+      auth:
+        username: $DOCKER_USERNAME
+        password: $DOCKER_PASSWORD
+  working_directory: ~/source
+
+version: 2
+jobs:
+  deploy-to-k8s:
+    <<: *defaults
+    steps:
+      - run:
+          name: Deploy to k8s
+          command: echo "Deploy yeaaaah"
+
+workflows:
+  version: 2
+  deployment:
+    jobs:
+      - deploy-to-k8s:
+          filters:
+            tags:
+              ignore: /.*/
