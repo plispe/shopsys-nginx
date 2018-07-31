@@ -41,8 +41,11 @@ jobs:
           command: kubectl get pods
       - run:
           name: Terraform init
-          command: terraform init
-
+          command: |
+            terraform init
+            terraform workspace new ${CIRCLE_BRANCH} || true
+            terraform workspace select ${CIRCLE_BRANCH}
+            terraform plan
 workflows:
   version: 2
   deployment:
