@@ -5,3 +5,7 @@ variable "DNSIMPLE_API_ACCOUNT" {
 variable "DNSIMPLE_API_TOKEN" {
   type = "string"
 }
+
+variable "K8S_NAMESPACE" {
+  type = "string"
+}
