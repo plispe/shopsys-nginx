@@ -46,7 +46,7 @@ jobs:
           name: Deploy to k8s
           working_directory: k8s
           command: |
-            yq write --inplace deployments.yml spec.template.spec.containers[0].image $DOCKER_REPOSITORY:$CIRCLE_BRANCH-$CIRCLE_SHA1
+            yq write --inplace deployment.yml spec.template.spec.containers[0].image $DOCKER_REPOSITORY:$CIRCLE_BRANCH-$CIRCLE_SHA1
             yq write --inplace ingress.yml spec.rules[0].host $CIRCLE_BRANCH.p4a.me
             kubectl apply -f . -n $CIRCLE_BRANCH
 workflows:
