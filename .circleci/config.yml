@@ -47,7 +47,7 @@ jobs:
             terraform init
             terraform workspace new ${CIRCLE_BRANCH} || true
             terraform workspace select ${CIRCLE_BRANCH}
-            terraform plan
+            terraform apply -auto-approve
 workflows:
   version: 2
   deployment:
