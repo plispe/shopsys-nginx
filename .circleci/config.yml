@@ -14,7 +14,7 @@ setup-google-account: &setup-google-account
   name: Setup google account
   command: |
     echo "$GOOGLE_SERVICE_ACCOUNT">/etc/google-service-account.json
-    gcloud auth activate-service-account $GOOGLE_ACCOUNT /etc/google-service-account.json
+    gcloud auth activate-service-account $GOOGLE_ACCOUNT --key-file /etc/google-service-account.json
     gcloud container clusters get-credentials shopsys --zone europe-west1-d --project $GOOGLE_PROJECT_ID
 version: 2
 jobs:
