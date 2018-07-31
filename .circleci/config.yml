@@ -39,6 +39,9 @@ jobs:
       - run:
           name: List k8s pods
           command: kubectl get pods
+      - run:
+          name: Terraform init
+          command: terraform init
 
 workflows:
   version: 2
